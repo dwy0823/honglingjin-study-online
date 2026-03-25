@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>红研通————一站式智慧网络教学平台</title>
+    <style>
+      /* 全局样式重置 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Microsoft YaHei", sans-serif;
+      }
+
+      /* 顶部导航栏 */
+      header {
+        background-color: #c8102e; /* 中国红主色调 */
+        color: white;
+        padding: 15px 20px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-size: 20px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        line-height: 1; /* 重置行高，避免影响对齐 */
+      }
+      .logo-img {
+        width: 40px;
+        height: 40px;
+        vertical-align: middle;
+        object-fit: contain; /* 保持图片比例，避免变形 */
+      }
+      .nav-menu a {
+        color: white;
+        text-decoration: none;
+        margin-left: 25px;
+        font-size: 16px;
+      }
+      .nav-menu a:hover {
+        text-decoration: underline;
+      }
+
+      /* 横幅区域 */
+      .banner {
+        background:
+          linear-gradient(rgba(200, 16, 46, 0.8), rgba(200, 16, 46, 0.9)),
+          url("https://picsum.photos/id/1040/1920/500") center/cover no-repeat;
+        color: white;
+        text-align: center;
+        padding: 80px 20px;
+      }
+      .banner h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        line-height: 1.4;
+      }
+      .banner p {
+        font-size: 18px;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      /* 家庭信息录入区域 */
+      .family-info-section {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+      }
+      .family-info-title {
+        font-size: 24px;
+        color: #c8102e;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .family-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      @media (max-width: 768px) {
+        .family-form {
+          grid-template-columns: 1fr;
+        }
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: 500;
+      }
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .form-full-width {
+        grid-column: 1 / -1;
+      }
+      .submit-btn {
+        background-color: #c8102e;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .submit-btn:hover {
+        background-color: #a80e27;
+      }
+
+      /* 课程列表区域 */
+      .course-section {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 0 20px;
+      }
+      .section-title {
+        text-align: center;
+        font-size: 28px;
+        color: #c8102e;
+        margin-bottom: 40px;
+        position: relative;
+      }
+      .section-title::after {
+        content: "";
+        display: block;
+        width: 80px;
+        height: 3px;
+        background-color: #c8102e;
+        margin: 10px auto;
+      }
+      .course-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      /* 课程卡片整体美化 */
+      .course-card {
+        border: 1px solid #eee;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        background: #fff;
+        position: relative;
+      }
+      .course-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 20px rgba(200, 16, 46, 0.15);
+      }
+      /* 课程视频样式 */
+      .course-video {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+      .course-info {
+        padding: 22px;
+      }
+      /* 课程标题样式 */
+      .course-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #c8102e;
+        margin-bottom: 12px;
+        line-height: 1.3;
+        display: flex;
+        align-items: center;
+      }
+      .course-title img {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+      /* 课程标签样式 */
+      .course-tag {
+        display: inline-block;
+        background-color: #c8102e;
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 16px;
+      }
+      /* 课程描述样式 */
+      .course-desc {
+        color: #555;
+        line-height: 1.75;
+        font-size: 15px;
+        margin-bottom: 20px;
+      }
+      /* 学习时长录入 */
+      .study-time-group {
+        margin-bottom: 12px;
+      }
+      .study-time-group label {
+        color: #333;
+        font-weight: 500;
+        font-size: 14px;
+        margin-bottom: 6px;
+        display: block;
+      }
+      .study-time-group input {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        margin-top: 5px;
+        transition: border 0.2s ease;
+      }
+      .study-time-group input:focus {
+        border-color: #c8102e;
+        outline: none;
+      }
+      /* 照片上传 */
+      .upload-group {
+        margin-bottom: 12px;
+      }
+      .upload-group label {
+        color: #333;
+        font-weight: 500;
+        font-size: 14px;
+        margin-bottom: 6px;
+        display: block;
+      }
+      .upload-btn {
+        display: inline-block;
+        background-color: #0088cc;
+        color: white;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        margin-top: 5px;
+        transition: all 0.2s ease;
+      }
+      .upload-btn:hover {
+        background-color: #006699;
+        transform: scale(1.03);
+      }
+      .upload-preview {
+        width: 100%;
+        height: 100px;
+        border: 1px dashed #ddd;
+        border-radius: 6px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #999;
+        overflow: hidden;
+      }
+      .upload-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* 学习进度条 */
+      .course-progress {
+        width: 100%;
+        height: 8px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        overflow: hidden;
+      }
+      .progress-bar {
+        height: 100%;
+        background-color: #c8102e;
+        width: 0%;
+        transition: width 0.5s ease;
+        border-radius: 4px;
+      }
+      .progress-text {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 12px;
+      }
+      /* 按钮样式美化 */
+      .study-btn {
+        display: inline-block;
+        background-color: #0088cc;
+        color: white;
+        text-decoration: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        font-size: 15px;
+        margin-right: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .study-btn:hover {
+        background-color: #0077b3;
+        transform: scale(1.03);
+      }
+      .check-btn {
+        display: inline-block;
+        background-color: #c8102e;
+        color: white;
+        text-decoration: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        font-size: 15px;
+        opacity: 0.6;
+        pointer-events: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .check-btn.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .check-btn:hover {
+        background-color: #a80e27;
+        transform: scale(1.03);
+      }
+
+      /* 盲盒弹窗样式 */
+      .blind-box-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      }
+      .modal-content {
+        background-color: white;
+        width: 90%;
+        max-width: 400px;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        animation: modalPop 0.5s ease;
+      }
+      @keyframes modalPop {
+        0% {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        cursor: pointer;
+        color: #666;
+      }
+      .blind-box-img {
+        width: 150px;
+        height: 150px;
+        margin: 20px auto;
+        border-radius: 50%;
+        border: 3px solid #c8102e;
+        overflow: hidden;
+      }
+      .blind-box-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .blind-box-title {
+        font-size: 20px;
+        color: #c8102e;
+        margin-bottom: 10px;
+      }
+      .blind-box-desc {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+      }
+      .open-btn {
+        background-color: #c8102e;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .open-btn:hover {
+        background-color: #a80e27;
+      }
+
+      /* 积分排行区域 */
+      .rank-section {
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 0 20px;
+      }
+      .rank-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .rank-table th,
+      .rank-table td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+      }
+      .rank-table th {
+        background-color: #c8102e;
+        color: white;
+        font-weight: 500;
+      }
+      .rank-table tr:hover {
+        background-color: #f9f9f9;
+      }
+      .rank-table .rank-num {
+        font-weight: bold;
+        color: #c8102e;
+        font-size: 18px;
+      }
+      /* 段位样式 */
+      .rank-level {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 4px;
+        color: white;
+        font-size: 12px;
+      }
+      .level-1 {
+        background-color: #666;
+      } /* 萌新 */
+      .level-2 {
+        background-color: #4caf50;
+      } /* 进阶 */
+      .level-3 {
+        background-color: #2196f3;
+      } /* 达人 */
+      .level-4 {
+        background-color: #9c27b0;
+      } /* 精英 */
+      .level-5 {
+        background-color: #ff9800;
+      } /* 大师 */
+      .level-6 {
+        background-color: #c8102e;
+      } /* 王者 */
+
+      /* 底部样式 */
+      footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 30px 20px;
+        margin-top: 60px;
+      }
+      .footer-text {
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      /* 响应式适配 */
+      @media (max-width: 768px) {
+        .banner h1 {
+          font-size: 24px;
+        }
+        .section-title {
+          font-size: 24px;
+        }
+        .nav-menu a {
+          margin-left: 15px;
+          font-size: 14px;
+        }
+        .logo-img {
+          width: 36px;
+          height: 36px;
+        }
+        .logo {
+          font-size: 18px;
+        }
+        .blind-box-img {
+          width: 120px;
+          height: 120px;
+        }
+        .rank-table th,
+        .rank-table td {
+          padding: 10px 5px;
+          font-size: 14px;
+        }
+        .course-video {
+          height: 160px;
+        }
+        .course-title {
+          font-size: 20px;
+        }
+        .course-desc {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 顶部导航栏 -->
+    <header>
+      <div class="nav-container">
+        <div class="logo">
+          <img src="logo3.png" alt="红领巾研学logo" class="logo-img" />
+          红研通——一站式智慧网络教学平台
+        </div>
+        <nav class="nav-menu">
+          <a href="#home">首页</a>
+          <a href="#family-info">家庭信息</a>
+          <a href="#courses">研学课程</a>
+          <a href="#rank">积分排行</a>
+          <a href="#contact">联系我们</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- 横幅区域 -->
+    <section class="banner" id="home">
+      <h1>童心共筑中国梦——打造红领巾研学实践育人新模式</h1>
+      <p>
+        全家一起参与红色研学，记录阅读时长、上传打卡照片，积累积分解锁段位排行，让红色学习更有温度！
+      </p>
+    </section>
+
+    <!-- 家庭信息录入区域 -->
+    <section class="family-info-section" id="family-info">
+      <h2 class="family-info-title">家庭信息录入</h2>
+      <form class="family-form" id="familyForm">
+        <div class="form-group">
+          <label for="familyName">家庭名称</label>
+          <input
+            type="text"
+            id="familyName"
+            placeholder="例如：小红家"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="familyMember">参与人数</label>
+          <select id="familyMember" required>
+            <option value="">请选择</option>
+            <option value="2">2人</option>
+            <option value="3">3人</option>
+            <option value="4">4人</option>
+            <option value="5+">5人及以上</option>
+          </select>
+        </div>
+        <div class="form-group form-full-width">
+          <label for="childName">孩子姓名</label>
+          <input
+            type="text"
+            id="childName"
+            placeholder="填写孩子的姓名"
+            required
+          />
+        </div>
+        <div class="form-group form-full-width">
+          <label for="childGrade">孩子年级</label>
+          <select id="childGrade" required>
+            <option value="">请选择</option>
+            <option value="一年级">一年级</option>
+            <option value="二年级">二年级</option>
+            <option value="三年级">三年级</option>
+            <option value="四年级">四年级</option>
+            <option value="五年级">五年级</option>
+            <option value="六年级">六年级</option>
+          </select>
+        </div>
+        <div class="form-group form-full-width">
+          <button type="submit" class="submit-btn">保存家庭信息</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 课程列表区域（美化后的3个视频课程） -->
+    <section class="course-section" id="courses">
+      <h2 class="section-title">红领巾红色研学精品课程</h2>
+      <div class="course-list">
+        <!-- 课程1 -->
+        <div class="course-card">
+          <video class="course-video" controls>
+            <source src="红色文化视频1.mp4" type="video/mp4" />
+            您的浏览器不支持HTML5视频播放，请升级浏览器！
+          </video>
+          <div class="course-info">
+            <h3 class="course-title">
+              <img src="https://picsum.photos/id/1076/24/24" alt="党史图标" />
+              红领巾学党史·红色记忆
+            </h3>
+            <span class="course-tag">基础研学</span>
+            <p class="course-desc">
+              专为少年儿童打造的党史启蒙精品课，以动画故事、互动问答、情景模拟等趣味形式，生动讲述党的百年奋斗历程。<br />
+              让孩子们在轻松氛围中了解红船精神、长征精神等红色基因，厚植爱国情怀，从小树立听党话、跟党走的理想信念。
+            </p>
+            <!-- 阅读时长录入 -->
+            <div class="study-time-group">
+              <label>本次学习时长（分钟）</label>
+              <input
+                type="number"
+                class="study-time-input"
+                data-course="1"
+                placeholder="输入时长，例如：30"
+                min="1"
+              />
+            </div>
+            <!-- 照片上传 -->
+            <div class="upload-group">
+              <label>上传学习打卡照片</label>
+              <label class="upload-btn">
+                选择照片
+                <input
+                  type="file"
+                  class="upload-input"
+                  data-course="1"
+                  accept="image/*"
+                  style="display: none"
+                />
+              </label>
+              <div class="upload-preview" data-course="1">未上传照片</div>
+            </div>
+            <!-- 学习进度条 -->
+            <div class="progress-text">
+              累计积分：<span class="progress-num">0</span>分
+            </div>
+            <div class="course-progress">
+              <div class="progress-bar" data-course="1"></div>
+            </div>
+            <!-- 按钮：学习/打卡 -->
+            <button class="study-btn" data-course="1">累计时长</button>
+            <button class="check-btn" data-course="1">完成打卡</button>
+          </div>
+        </div>
+
+        <!-- 课程2 -->
+        <div class="course-card">
+          <video class="course-video" controls>
+            <source src="红色文化视频2.mp4" type="video/mp4" />
+            您的浏览器不支持HTML5视频播放，请升级浏览器！
+          </video>
+          <div class="course-info">
+            <h3 class="course-title">
+              <img src="https://picsum.photos/id/1077/24/24" alt="故事图标" />
+              红领巾讲红色故事
+            </h3>
+            <span class="course-tag">特色研学</span>
+            <p class="course-desc">
+              以角色扮演、故事演绎、情景朗诵为核心形式，引导少年儿童讲述刘胡兰、董存瑞等革命先烈的英雄事迹。<br />
+              在沉浸式表达中传承红色精神，锻炼语言表达、逻辑思维与舞台表现力，让红色故事代代相传。
+            </p>
+            <div class="study-time-group">
+              <label>本次学习时长（分钟）</label>
+              <input
+                type="number"
+                class="study-time-input"
+                data-course="2"
+                placeholder="输入时长，例如：30"
+                min="1"
+              />
+            </div>
+            <div class="upload-group">
+              <label>上传学习打卡照片</label>
+              <label class="upload-btn">
+                选择照片
+                <input
+                  type="file"
+                  class="upload-input"
+                  data-course="2"
+                  accept="image/*"
+                  style="display: none"
+                />
+              </label>
+              <div class="upload-preview" data-course="2">未上传照片</div>
+            </div>
+            <div class="progress-text">
+              累计积分：<span class="progress-num">0</span>分
+            </div>
+            <div class="course-progress">
+              <div class="progress-bar" data-course="2"></div>
+            </div>
+            <button class="study-btn" data-course="2">累计时长</button>
+            <button class="check-btn" data-course="2">完成打卡</button>
+          </div>
+        </div>
+
+        <!-- 课程3 -->
+        <div class="course-card">
+          <video class="course-video" controls>
+            <source src="红色文化视频3.mp4" type="video/mp4" />
+            您的浏览器不支持HTML5视频播放，请升级浏览器！
+          </video>
+          <div class="course-info">
+            <h3 class="course-title">
+              <img src="https://picsum.photos/id/1078/24/24" alt="精神图标" />
+              红领巾悟红色精神
+            </h3>
+            <span class="course-tag">进阶研学</span>
+            <p class="course-desc">
+              深度结合井冈山精神、长征精神、延安精神等红色精神内核，通过情景体验、小组研讨、案例分析等方式。<br />
+              帮助少年儿童理解红色精神的时代价值，感悟先辈们的理想信念与家国情怀，树立为实现中华民族伟大复兴而努力的远大理想。
+            </p>
+            <div class="study-time-group">
+              <label>本次学习时长（分钟）</label>
+              <input
+                type="number"
+                class="study-time-input"
+                data-course="3"
+                placeholder="输入时长，例如：30"
+                min="1"
+              />
+            </div>
+            <div class="upload-group">
+              <label>上传学习打卡照片</label>
+              <label class="upload-btn">
+                选择照片
+                <input
+                  type="file"
+                  class="upload-input"
+                  data-course="3"
+                  accept="image/*"
+                  style="display: none"
+                />
+              </label>
+              <div class="upload-preview" data-course="3">未上传照片</div>
+            </div>
+            <div class="progress-text">
+              累计积分：<span class="progress-num">0</span>分
+            </div>
+            <div class="course-progress">
+              <div class="progress-bar" data-course="3"></div>
+            </div>
+            <button class="study-btn" data-course="3">累计时长</button>
+            <button class="check-btn" data-course="3">完成打卡</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 积分排行区域 -->
+    <section class="rank-section" id="rank">
+      <h2 class="section-title">红领巾家庭研学积分排行</h2>
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>家庭名称</th>
+            <th>孩子姓名</th>
+            <th>累计积分</th>
+            <th>当前段位</th>
+            <th>打卡次数</th>
+          </tr>
+        </thead>
+        <tbody id="rankTableBody">
+          <!-- 排行数据由JS动态生成 -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 盲盒弹窗 -->
+    <div class="blind-box-modal" id="blindBoxModal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3 class="blind-box-title">恭喜！获得红色文化虚拟盲盒</h3>
+        <div class="blind-box-img" id="blindBoxImg">
+          <img src="红色勋章纪念徽章.png" alt="盲盒封面" />
+        </div>
+        <p class="blind-box-desc" id="blindBoxDesc">
+          点击开盒，解锁你的专属红色纪念品！
+        </p>
+        <button class="open-btn" id="openBoxBtn">开启盲盒</button>
+      </div>
+    </div>
+
+    <!-- 底部区域 -->
+    <footer>
+      <div class="footer-text">
+        <p>童心筑梦——红领巾家庭研学实践平台 © 2026 版权所有</p>
+        <p>地址：XX市XX区XX路XX号 | 联系电话：010-XXXXXXXX</p>
+      </div>
+    </footer>
+
+    <script>
+      // 全局变量：存储家庭信息和积分数据
+      let familyData = {
+        name: "",
+        member: "",
+        childName: "",
+        childGrade: "",
+        totalScore: 0,
+        checkCount: 0,
+        courseScores: { 1: 0, 2: 0, 3: 0 },
+        coursePhotos: { 1: "", 2: "", 3: "" },
+      };
+      // 模拟其他家庭数据（排行用）
+      let rankData = [
+        { family: "阳光家庭", child: "小明", score: 850, level: 5, check: 12 },
+        { family: "红星家庭", child: "小红", score: 720, level: 4, check: 10 },
+        { family: "先锋家庭", child: "小刚", score: 680, level: 4, check: 9 },
+        { family: "启航家庭", child: "小丽", score: 550, level: 3, check: 7 },
+        { family: "追梦家庭", child: "小亮", score: 420, level: 3, check: 6 },
+      ];
+      // 段位配置
+      const levelConfig = [
+        { score: 0, name: "萌新", class: "level-1" },
+        { score: 200, name: "进阶", class: "level-2" },
+        { score: 400, name: "达人", class: "level-3" },
+        { score: 600, name: "精英", class: "level-4" },
+        { score: 800, name: "大师", class: "level-5" },
+        { score: 1000, name: "王者", class: "level-6" },
+      ];
+
+      // 1. 平滑滚动
+      document.querySelectorAll(".nav-menu a").forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href");
+          document.querySelector(targetId).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // 2. 家庭信息提交
+      document
+        .getElementById("familyForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          familyData.name = document.getElementById("familyName").value;
+          familyData.member = document.getElementById("familyMember").value;
+          familyData.childName = document.getElementById("childName").value;
+          familyData.childGrade = document.getElementById("childGrade").value;
+          alert(`✅ ${familyData.name} 信息保存成功！快去打卡积累积分吧～`);
+          // 更新排行数据
+          updateRankData();
+        });
+
+      // 3. 照片上传预览
+      document.querySelectorAll(".upload-input").forEach((input) => {
+        input.addEventListener("change", function () {
+          const courseId = this.getAttribute("data-course");
+          const preview = document.querySelector(
+            `.upload-preview[data-course="${courseId}"]`,
+          );
+          const file = this.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              preview.innerHTML = `<img src="${e.target.result}" alt="打卡照片">`;
+              familyData.coursePhotos[courseId] = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            // 激活打卡按钮
+            document
+              .querySelector(`.check-btn[data-course="${courseId}"]`)
+              .classList.add("active");
+          }
+        });
+      });
+
+      // 4. 时长累计（积分计算：1分钟=1分）
+      const studyBtns = document.querySelectorAll(".study-btn");
+      studyBtns.forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          // 检查是否填写家庭信息
+          if (!familyData.name) {
+            alert("请先填写家庭信息！");
+            document
+              .querySelector("#family-info")
+              .scrollIntoView({ behavior: "smooth" });
+            return;
+          }
+          const courseId = this.getAttribute("data-course");
+          const timeInput = document.querySelector(
+            `.study-time-input[data-course="${courseId}"]`,
+          );
+          const time = parseInt(timeInput.value);
+
+          if (!time || time < 1) {
+            alert("请输入有效的学习时长（至少1分钟）！");
+            timeInput.focus();
+            return;
+          }
+
+          // 计算积分
+          const score = time;
+          familyData.courseScores[courseId] += score;
+          familyData.totalScore += score;
+
+          // 更新进度条和积分显示
+          const progressBar = document.querySelector(
+            `.progress-bar[data-course="${courseId}"]`,
+          );
+          const progressNum =
+            progressBar.parentElement.previousElementSibling.querySelector(
+              ".progress-num",
+            );
+          // 进度条按积分占比显示（满分200分）
+          const progressPercent = Math.min(
+            100,
+            (familyData.courseScores[courseId] / 200) * 100,
+          );
+          progressBar.style.width = `${progressPercent}%`;
+          progressNum.textContent = familyData.courseScores[courseId];
+
+          alert(`✅ 已累计${time}分钟学习时长，获得${score}积分！`);
+          timeInput.value = "";
+          // 更新排行
+          updateRankData();
+        });
+      });
+
+      // 5. 打卡+盲盒功能
+      const checkBtns = document.querySelectorAll(".check-btn");
+      const modal = document.getElementById("blindBoxModal");
+      const closeModal = document.querySelector(".close-modal");
+      const openBoxBtn = document.getElementById("openBoxBtn");
+      const blindBoxImg = document
+        .getElementById("blindBoxImg")
+        .querySelector("img");
+      const blindBoxDesc = document.getElementById("blindBoxDesc");
+
+      // 虚拟盲盒列表（修改为3个指定盲盒）
+      const blindBoxList = [
+        {
+          img: "毛主席格言书签.jpg",
+          title: "毛主席格言书签",
+          desc: "恭喜获得「毛主席格言书签」，铭记伟人教诲，传承红色思想！",
+        },
+        {
+          img: "红色勋章纪念徽章.png",
+          title: "红色勋章纪念徽章",
+          desc: "恭喜获得「红色勋章纪念徽章」，致敬革命先烈，铭记红色历史！",
+        },
+        {
+          img: "红领巾研学证书.png",
+          title: "红领巾研学证书",
+          desc: "恭喜获得「红领巾研学结业证书」，见证你的红色研学成长！",
+        },
+      ];
+
+      // 打卡按钮点击
+      checkBtns.forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const courseId = this.getAttribute("data-course");
+          // 检查是否上传照片
+          if (!familyData.coursePhotos[courseId]) {
+            alert("请先上传打卡照片！");
+            return;
+          }
+          // 打卡次数+1
+          familyData.checkCount += 1;
+          // 打开盲盒弹窗
+          modal.style.display = "flex";
+          blindBoxImg.src = "红色勋章纪念徽章.png";
+          blindBoxDesc.textContent = "点击开盒，解锁你的专属红色纪念品！";
+          openBoxBtn.style.display = "block";
+          // 更新排行
+          updateRankData();
+        });
+      });
+
+      // 关闭弹窗
+      closeModal.addEventListener("click", function () {
+        modal.style.display = "none";
+      });
+      window.addEventListener("click", function (e) {
+        if (e.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+
+      // 开启盲盒
+      openBoxBtn.addEventListener("click", function () {
+        const randomIndex = Math.floor(Math.random() * blindBoxList.length);
+        const randomBox = blindBoxList[randomIndex];
+
+        let rotate = 0;
+        const rotateInterval = setInterval(() => {
+          rotate += 30;
+          blindBoxImg.style.transform = `rotate(${rotate}deg)`;
+          if (rotate >= 360) {
+            clearInterval(rotateInterval);
+            blindBoxImg.src = randomBox.img;
+            blindBoxImg.style.transform = "rotate(0deg)";
+            blindBoxDesc.textContent = randomBox.desc;
+            openBoxBtn.style.display = "none";
+          }
+        }, 50);
+      });
+
+      // 6. 更新排行数据
+      function updateRankData() {
+        // 计算当前段位
+        let currentLevel = levelConfig[0];
+        for (let i = levelConfig.length - 1; i >= 0; i--) {
+          if (familyData.totalScore >= levelConfig[i].score) {
+            currentLevel = levelConfig[i];
+            break;
+          }
+        }
+        // 添加自己的家庭到排行
+        const myRank = {
+          family: familyData.name || "未命名家庭",
+          child: familyData.childName || "未填写",
+          score: familyData.totalScore,
+          level: currentLevel,
+          check: familyData.checkCount,
+        };
+        // 合并数据并排序
+        const allRank = [...rankData, myRank].sort((a, b) => b.score - a.score);
+        // 渲染排行表格
+        const rankBody = document.getElementById("rankTableBody");
+        rankBody.innerHTML = "";
+        allRank.forEach((item, index) => {
+          const tr = document.createElement("tr");
+          // 处理段位显示
+          const level = item.level.name
+            ? item.level
+            : levelConfig.find((l) => l.score <= item.score);
+          const levelClass = item.level.class ? item.level.class : level.class;
+          tr.innerHTML = `
+          <td><span class="rank-num">${index + 1}</span></td>
+          <td>${item.family}</td>
+          <td>${item.child}</td>
+          <td>${item.score}</td>
+          <td><span class="rank-level ${levelClass}">${level.name}</span></td>
+          <td>${item.check}</td>
+        `;
+          rankBody.appendChild(tr);
+        });
+      }
+
+      // 初始化排行
+      updateRankData();
+    </script>
+  </body>
+</html>
